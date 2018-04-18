@@ -1,0 +1,42 @@
+{
+  
+"UserId": "User1",
+"Cards": [
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "2",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "2",
+      "damage": 1
+    },
+    {
+      "hp": 3,
+      "mana": 2,
+      "type": 4,
+      "name": "2",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "2",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "2",
+      "damage": 1
+    }
+  ]
+
+}
