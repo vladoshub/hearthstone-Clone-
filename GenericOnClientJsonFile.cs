@@ -10,7 +10,7 @@ namespace Карты
     {
 
         
-        static void Main(string[] args)
+        static void Main3(string[] args)
         {
 
 

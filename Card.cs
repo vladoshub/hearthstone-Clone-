@@ -16,6 +16,9 @@ namespace Карты
         [JsonProperty("UserId")]
         public string UserId { get; set; }
 
+        [JsonProperty("Check")]
+        public string Check { get; set; }
+
         [JsonProperty("Cards")]
         public Card[] Cards { get; set; }
 
@@ -23,6 +26,7 @@ namespace Карты
         {
             UserId = name;
             Cards = Tx;
+            Check = "$";
 
         }
     }
