@@ -1,0 +1,147 @@
+{
+  
+"UserId": "User1", //1-боевая карта,2-маг
+  "Cards": [
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "1",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "2",
+      "damage": 1
+    },
+    {
+      "hp": 3,
+      "mana": 2,
+      "type": 4,
+      "name": "3",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "4",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "5",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "6",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "7",
+      "damage": 1
+    },
+    {
+      "hp": 3,
+      "mana": 2,
+      "type": 4,
+      "name": "8",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "9",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "10",
+      "damage": 1
+    },
+
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "11",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "12",
+      "damage": 1
+    },
+    {
+      "hp": 3,
+      "mana": 2,
+      "type": 4,
+      "name": "13",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "14",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "15",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "16",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "17",
+      "damage": 1
+    },
+    {
+      "hp": 3,
+      "mana": 2,
+      "type": 4,
+      "name": "18",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "19",
+      "damage": 1
+    },
+    {
+      "hp": 2,
+      "mana": 2,
+      "type": 1,
+      "name": "20",
+      "damage": 1
+    }
+  ]
+}
