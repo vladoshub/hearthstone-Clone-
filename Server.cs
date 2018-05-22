@@ -80,7 +80,7 @@ namespace Карты
                 {
 
                     Card[] c = new Card[20];
-                    for (int m = 0; m < 20; m++)
+                    for (int m = 0; m < 19; m++)
                     {
                         if (k.Cards[m] != null)
                         {
