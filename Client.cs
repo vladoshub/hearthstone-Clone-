@@ -92,10 +92,21 @@ class Client:MonoBehaviour
                     if (bytes[i] == 0)
                         break;
                 }
-                Vrag = Vrag.Remove(0, 1);
+                if (Vrag == "next")
+                {
+                    NEXT = true;
+                    
+                }
+                else
+                {
+                    GetsData = true;//флаг получения данных от сервера
+                    Enemy = Vrag;
+                }
+                Vrag = "";
+                Thread.Sleep(10);
             }
-            GetsData = true;//флаг получения данных от сервера
-            Enemy = Vrag;
+
+            
          
         }
         catch (Exception e)
