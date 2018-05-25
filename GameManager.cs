@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,9 +14,9 @@ public class Game
                          EnemyHand, PlayerHand,
                          EnemyField, PlayerField;
     public Players
-                           PlayerFace;
+                           Playerface;
 
-    public Enemys EnemyFace;
+    public Enemys Enemyface;
 
 
     public Game()
@@ -24,23 +24,35 @@ public class Game
         //EnemyDeck = GiveEnemyCard(Client.Enemy);
         PlayerDeck = GiveDeckCard();
 
-        EnemyHand = new List<CardMan>();
-        PlayerHand = new List<CardMan>();
+        //EnemyHand = new List<CardMan>();
+        //PlayerHand = new List<CardMan>();
 
-        EnemyField = new List<CardMan>();
-        PlayerField = new List<CardMan>();
+        //EnemyField = new List<CardMan>();
+        //PlayerField = new List<CardMan>();
 
-        EnemyFace = new Enemys();
-        PlayerFace = new Players();
+        //Enemyface = enface();
+        Playerface = face();
 
 
 
     }
+    Enemys enface()
+    {
+        Enemys p = new Enemys(Client.EnemyName, int.Parse(Client.EnemyHp), int.Parse(Client.EnemyMana));
+        return p;
+    }
+
+    Players face()
+    {
+        Players p = new Players(Client.YourName, int.Parse(Client.YourHP), int.Parse(Client.YourMana));
+        return p;
+    }
+
 
     List<CardMan> GiveDeckCard()//жать колоду карт из клиента
     {
         List<CardMan> list = new List<CardMan>();
-        for (int i = 0; i < 25; i++)
+        for (int i = 0; i < 7; i++)
             list.Add(CardList.AllCards[i]);
         return list;
     }
@@ -53,7 +65,7 @@ public class Game
         Client.EnemyMana = k.ManaPlayer;
         List<CardMan> list = new List<CardMan>();
         
-        CardMan C = new CardMan(k.name, k.name, int.Parse(k.DAMAGE), int.Parse(k.HP), int.Parse(k.TYPE), int.Parse(k.MANA));
+        CardMan C = new CardMan(k.NUM, k.NUM, int.Parse(k.DAMAGE), int.Parse(k.HP), int.Parse(k.TYPE), int.Parse(k.MANA));
         list.Add(C);
         return list;
     }
@@ -76,7 +88,7 @@ public class GameManager : MonoBehaviour {
     public TextMeshProUGUI TurnTimeText;
     public Button EndTurnBtn;
     public static bool isPlay;
-   
+
 
 
     //public  static void Play(bool s)
@@ -116,11 +128,12 @@ public class GameManager : MonoBehaviour {
         }
 
         CurrentGame = new Game();
-        GiveHandCards(CurrentGame.PlayerDeck, PlayerHand);//наши карты
-                                                          //GiveYouFace(CurrentGame.PlayerFace,PlayerFace);наше лицо
-                                                          //GiveEnFace(CurrentGame.EnemyFace, EnemyFace);
-                                                          //Thread thread;
-                                                          /* thread = new Thread(Client.GetCardsFromEnemy);*///запустить поток прослушки данных от сервера(ходы врага)
+        GiveHandCards(CurrentGame.PlayerDeck, PlayerHand);
+        GiveYouFace(CurrentGame.Playerface, PlayerFace);//наши карты
+                                                        // Thread thread2 = new Thread(Data);   //   обработка данных                                         /*GiveYouFace(CurrentGame.PlayerFace, PlayerFace);*///наше лицо
+                                                        //GiveEnFace(CurrentGame.EnemyFace, EnemyFace);
+                                                        //Thread thread;
+                                                        /* thread = new Thread(Client.GetCardsFromEnemy);*///запустить поток прослушки данных от сервера(ходы врага)
         StartCoroutine(TurnFunc());
 
     }
@@ -138,7 +151,7 @@ public class GameManager : MonoBehaviour {
     void GiveHandCards(List<CardMan> deck, Transform hand)//дать колоду на игровое поле(4 карты)
     {
         int i = 0;
-        while (i++ < 7)
+        while (i++ < 4)
             GiveCardToHand(deck, hand);
 
     }
@@ -152,6 +165,7 @@ public class GameManager : MonoBehaviour {
 
     void GiveYouFace(Players face, Transform PlayerFace)
     {
+        
         GameObject PlFace = Instantiate(YouFace, PlayerFace, false);
         PlFace.GetComponent<YouInterface>().ShowPlayerInfo(face);
 
@@ -167,14 +181,13 @@ public class GameManager : MonoBehaviour {
 
     }
 
-    void GiveEnemyCardToFiled(List<CardMan> deck, Transform hand) //указать EnemyDeck и вражескрое поле
+    void GiveEnemyCardToFiled(CardMan deck, Transform hand) //указать EnemyDeck и вражескрое поле
     {
-        if (deck.Count == 0)
-            return;
-        CardMan card = deck[0];
+
+        CardMan card = deck;
         GameObject cardGo = Instantiate(EnemyCard, hand, false);
         cardGo.GetComponent<CardInterface>().ShowCardInfo(card);
-        deck.RemoveAt(0);
+        cardGo.name = deck.Name;
 
 
     }
@@ -219,62 +232,115 @@ public class GameManager : MonoBehaviour {
 
         else
         {
-            while (TurnTime-- > 0) /* && Client.GetsData!=true -пока не получим данные от серва или счетчик не равен 0*/
+            while (TurnTime-- > 0) /* && Client.NEXT!=true -пока не получим данные от серва или счетчик не равен 0*/
             {
                 TurnTimeText.text = TurnTime.ToString();
                 yield return new WaitForSeconds(1);
             }
-            //Client.GetsData = false;
-            //if(Client.Enemy!="NO")
-            var k = JsonConvert.DeserializeObject<Player>(Client.Enemy);
-            if (k.NUM == "field")
-            {
-                //GiveEnemyCards(CurrentGame.EnemyDeck, EnemyFild);
-            }
-            if (k.NUM == "face")
-            {
-                //GiveYouFace(CurrentGame.EnemyFace, EnemyFace);
-            }
-            else
-            {
-
-                List<CardMan> list = new List<CardMan>();
-                int j = 0;
-                while (list[j].Name != k.NUM)
-                    j++;
-                if (GameObject.Find(k.NUM) != null)
-                {
-                    GameObject g = GameObject.Find(k.NUM);
-                }
-                if (GameObject.Find("0" + k.NUM) != null)
-                {
-                    GameObject g = GameObject.Find("0" + k.NUM);
-                    CardInterface CardMe = g.GetComponent<CardInterface>();
-                }
-
-
-
-
-
-            }
+            //Data();
+            //Client.NEXT = false;
             ChangeTurn();
         }
 
     }
 
+
+    public void Data()//обработка полученныйх данных
+    {
+        while (Client.GetsData)
+        {
+            Client.GetsData = false;
+            string enemy = Client.Enemy;
+            if (enemy != "" && enemy!="NO")
+            {
+                var k = JsonConvert.DeserializeObject<Player>(enemy);
+
+                if (k.NUM == "field")
+                {
+                    CardMan card = new CardMan(k.UserId, "2", int.Parse(k.DAMAGE), int.Parse(k.HP), int.Parse(k.TYPE), int.Parse(k.MANA));
+                    GiveEnemyCardToFiled(card, EnemyFild);
+                }
+                if (k.NUM == "face")
+                {
+                    CardMan card = new CardMan(k.UserId, "2", int.Parse(k.DAMAGE), int.Parse(k.HP), int.Parse(k.TYPE), int.Parse(k.MANA));
+                    CardInterface Card = new CardInterface();
+                    Card.ShowCardInfo(card);
+                    //GameLogicface(Card, Enemyface);
+                    //GiveYouFace(CurrentGame.EnemyFace, EnemyFace);
+                }
+                else
+                {
+
+                    List<CardMan> list = new List<CardMan>();
+                    int j = 0;
+                    while (list[j].Name != k.NUM)
+                        j++;
+                    if (GameObject.Find(k.NUM) != null)
+                    {
+                        GameObject g = GameObject.Find(k.NUM);
+                        CardInterface CardMe = g.GetComponent<CardInterface>();
+                        CardMan CardEn1 = new CardMan(k.NUM, "1", int.Parse(k.DAMAGE), int.Parse(k.HP), int.Parse(k.TYPE), int.Parse(k.MANA));
+                        CardInterface CardEn = new CardInterface();
+                        CardEn.ShowCardInfo(CardEn1);
+                        GameLogiccard(CardMe, CardEn);
+                        if (CardMe.SelfCard.HP <= 0 && CardEn.SelfCard.HP <= 0)
+                        {
+                            //while (transform.position.x != EnemyFild.position.x && transform.position.y != EnemyFild.position.y)
+                            //{
+
+                            //}
+                            Destroy(g);
+                            Thread.Sleep(100);
+                            GameObject Card = Instantiate(EnemyCard, EnemyFild, false);
+                            Card.GetComponent<CardInterface>().ShowCardInfo(CardEn1);
+                            Card.name =CardEn1.Name;
+                            Destroy(Card);
+                        }
+                        else
+                        {
+                            if (CardMe.SelfCard.HP <= 0)
+                            {
+                                Destroy(g);
+                            }
+                            if (CardEn.SelfCard.HP <= 0)
+                            {
+                                GameObject Card = Instantiate(EnemyCard, EnemyFild, false);
+                                Card.GetComponent<CardInterface>().ShowCardInfo(CardEn1);
+                                Card.name = CardEn1.Name;
+                                Destroy(Card);
+                            }
+                        }
+                                
+                        if (CardEn.SelfCard.HP > 0)
+                            GiveEnemyCardToFiled(CardEn1, EnemyFild);
+
+                    }
+
+                }
+
+
+
+
+
+            }
+
+            Thread.Sleep(100);
+        }
+    }
     
 
     public   void ChangeTurn()
     {
         StopAllCoroutines();
+        
         Turn++;
         EndTurnBtn.interactable = IsPlayerTurn;
-        if (IsPlayerTurn&&DropPlace.s!="")//если наш ход отправляем ход
-        {
-            Client.UpLoadOnServer(Client.stream, Client.client, DropPlace.C, DropPlace.s);
-            DropPlace.s = "";
-            Thread.Sleep(1);//подождем пока ответ дойдет и обработается до 2 клиента
-        }
+        //if (IsPlayerTurn&&DropPlace.s!="")//если наш ход отправляем ход
+        //{
+        //    Client.UpLoadOnServer(Client.stream, Client.client, DropPlace.C, DropPlace.s);
+        //    DropPlace.s = "";
+        //    Thread.Sleep(1);//подождем пока ответ дойдет и обработается до 2 клиента
+        //}
         if (IsPlayerTurn && DropPlace.s == "")
         {
             Client.UpLoadOnServer2();
@@ -283,6 +349,7 @@ public class GameManager : MonoBehaviour {
         }
         if (!IsPlayerTurn)//если наш ход-добавить 1 карту по нажатию на кнопку
             GiveNewCard();
+        Client.UpLoadOnServer3();
         StartCoroutine(TurnFunc());
 
     }
@@ -305,7 +372,7 @@ public class GameManager : MonoBehaviour {
     public void GameLogiccard(CardInterface you, CardInterface en)
     {
         Client.YourMana = (int.Parse(Client.YourMana) - you.SelfCard.Mana).ToString();
-        you.SelfCard.HP=you.SelfCard.HP - en.SelfCard.HP;
+        you.SelfCard.HP=you.SelfCard.HP - en.SelfCard.Attack;
         en.SelfCard.HP = en.SelfCard.HP - you.SelfCard.Attack;
         //Client.UpLoadOnServer(Client.stream, Client.client, 0, "NO");
 
@@ -316,7 +383,8 @@ public class GameManager : MonoBehaviour {
         
         while (DropPlace.CardOnField.Count > 0)
         {
-            DropPlace.CardOnField[0].name.Remove(DropPlace.CardOnField[0].name.Length-1);//добавляем единицу для того чтобы карту можно было двигать с поля в след ходе
+            DropPlace.CardOnField[0].tag="Respawn";//добавляем единицу для того чтобы карту можно было двигать с поля в след ходе
+            Debug.Log(DropPlace.CardOnField[0].name);
             DropPlace.CardOnField.RemoveAt(0);
         }
 
